@@ -1,6 +1,6 @@
 import numpy as np                   # NumPy library
-from PhysicalMagnitudes import *
-from MiscelaneousCalculations import *
+from .PhysicalMagnitudes import *
+from .MiscelaneousCalculations import *
 
 #--------1---------2---------3---------4---------5---------6---------7---------8
 def setExpInfo(Proposal="6-01-000",mainProposer="nobody",

@@ -57,18 +57,18 @@ import numpy as np                   # NumPy library
 
 from scipy import integrate          # For integration
 
-from PhysicalMagnitudes import *
+from .PhysicalMagnitudes import *
 
-from ExperimentalSettings import *
+from .ExperimentalSettings import *
 
-from MiscelaneousCalculations import *
+from .MiscelaneousCalculations import *
 
-from Element import *
+from .Element import *
 
-from FittingModels import *
+from .FittingModels import *
 
-from FourierTransforms import *
+from .FourierTransforms import *
 
-from InputOutput import *
+from .InputOutput import *
 
 #--------1---------2---------3---------4---------5---------6---------7---------8

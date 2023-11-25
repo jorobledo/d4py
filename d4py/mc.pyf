@@ -1,0 +1,397 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+subroutine mc2022(output,ncic,nt,angdet0,da,r1,r2,h,dh,ah,e0,wco,utab,setot,sem,pscat,setotc,semc,pscatc,imod,angdet,resps,resp1nas,resp1c,respt) ! in mc.f
+    character*30 intent(in) :: output
+    integer, optional,intent(in) :: ncic=5
+    integer, optional,intent(in) :: nt=1000
+    real(kind=8), optional,intent(in) :: angdet0=0
+    real(kind=8), optional,intent(in) :: da=0.88
+    real(kind=8), optional,intent(in) :: r1=0.3
+    real(kind=8), optional,intent(in) :: r2=0.29
+    real(kind=8), optional,intent(in) :: h=6.0
+    real(kind=8), optional,intent(in) :: dh=0.1
+    real(kind=8), optional,intent(in) :: ah=5.0
+    real(kind=8), optional,intent(in) :: e0=0.3243
+    real(kind=8), optional,intent(in) :: wco=1e-06
+    real(kind=8), optional,intent(in) :: utab=-0.482
+    real(kind=8), optional,intent(in) :: setot=4.03
+    real(kind=8), optional,intent(in) :: sem=0.3
+    real(kind=8), optional,intent(in) :: pscat=0.96
+    real(kind=8), optional,intent(in) :: setotc=4.89
+    real(kind=8), optional,intent(in) :: semc=0.37
+    real(kind=8), optional,intent(in) :: pscatc=0.78
+    integer, optional,intent(in) :: imod=1
+    real(kind=8) dimension(200),intent(out) :: angdet
+    real(kind=8) dimension(200,11),intent(out) :: resps
+    real(kind=8) dimension(200),intent(out) :: resp1nas
+    real(kind=8) dimension(200),intent(out) :: resp1c
+    real(kind=8) dimension(200),intent(out) :: respt
+    real*8 :: ein
+    real*8 :: u
+    real*8 :: theta
+    real*8 :: alfa
+    real*8 dimension(8) :: dis
+    real*8 :: se
+    real*8 :: se0
+    real*8 :: sm
+    real*8 :: ps
+    real*8 :: sec
+    real*8 :: se0c
+    real*8 :: smc
+    real*8 :: psc
+    real*8 dimension(3) :: vdir
+    real*8 dimension(3) :: vpos
+    real*8 dimension(4) :: radio
+    real*8 :: ac
+    real*8 :: bktauc
+    real*8 :: sigbc
+    real*8 :: xkbt
+    common /datosn/ ein,u,theta,alfa,dis
+    common /datossam/ se,se0,sm,ps
+    common /datoscan/ sec,se0c,smc,psc
+    common /neutron/ vdir,vpos
+    common /geomuest/ radio
+    common /datosc/ ac,bktauc,sigbc
+    common /temperatura/ xkbt
+end subroutine mc2022
+subroutine rcero(radio,eh,r,a,rand1,rand2) ! in mc.f
+    real*8 :: radio
+    real*8 :: eh
+    real*8 dimension(2,3) :: r
+    real*8 dimension(2,2) :: a
+    real*8 :: rand1
+    real*8 :: rand2
+end subroutine rcero
+subroutine distan(ieje,h,dh) ! in mc.f
+    integer*4 :: ieje
+    real(kind=8) :: h
+    real(kind=8) :: dh
+    real*8 dimension(4) :: radio
+    real*8 dimension(3) :: vdir
+    real*8 dimension(3) :: vpos
+    real*8 :: ein
+    real*8 :: u
+    real*8 :: theta
+    real*8 :: alfa
+    real*8 dimension(8) :: dis
+    common /geomuest/ radio
+    common /neutron/ vdir,vpos
+    common /datosn/ ein,u,theta,alfa,dis
+end subroutine distan
+subroutine lambda(xl,random,wgt,ican,imed,trans) ! in mc.f
+    real*8 :: xl
+    real*8 :: random
+    real*8 :: wgt
+    integer*4 :: ican
+    integer*4 :: imed
+    real*8 :: trans
+    real*8 :: ein
+    real*8 :: u
+    real*8 :: theta
+    real*8 :: alfa
+    real*8 dimension(8) :: dis
+    real*8 :: se
+    real*8 :: se0
+    real*8 :: sm
+    real*8 :: ps
+    real*8 :: sec
+    real*8 :: se0c
+    real*8 :: smc
+    real*8 :: psc
+    common /datosn/ ein,u,theta,alfa,dis
+    common /datossam/ se,se0,sm,ps
+    common /datoscan/ sec,se0c,smc,psc
+end subroutine lambda
+subroutine posnue(r,xl,d) ! in mc.f
+    real*8 dimension(2,3) :: r
+    real*8 :: xl
+    real*8 dimension(2,3) :: d
+end subroutine posnue
+subroutine ggubfs(dseed,random) ! in mc.f
+    real*8 :: dseed
+    real*8 dimension(1000) :: random
+end subroutine ggubfs
+subroutine angulos(a,r,d,u0,u,imed,rand1,rand2) ! in mc.f
+    real*8 dimension(2,2) :: a
+    real*8 dimension(2,3) :: r
+    real*8 dimension(2,3) :: d
+    real*8 :: u0
+    real*8 :: u
+    integer*4 :: imed
+    real*8 :: rand1
+    real*8 :: rand2
+    real*8 :: bkt
+    common /muestra/ bkt
+end subroutine angulos
+subroutine gendang(u,qemp,dq,a0,a1,a2,dang) ! in mc.f
+    real*8 :: u
+    real*8 dimension(400) :: qemp
+    real*8 dimension(400) :: dq
+    real*8 :: a0
+    real*8 :: a1
+    real*8 :: a2
+    real*8 dimension(181) :: dang
+end subroutine gendang
+subroutine normdq(u,qemp,dq,a0,a1,a2,dqnor) ! in mc.f
+    real*8 :: u
+    real*8 dimension(400) :: qemp
+    real*8 dimension(400) :: dq
+    real*8 :: a0
+    real*8 :: a1
+    real*8 :: a2
+    real*8 :: dqnor
+end subroutine normdq
+subroutine anguemp(a,r,d,dang,rand1,rand2) ! in mc.f
+    real*8 dimension(2,2) :: a
+    real*8 dimension(2,3) :: r
+    real*8 dimension(2,3) :: d
+    real*8 dimension(181) :: dang
+    real*8 :: rand1
+    real*8 :: rand2
+end subroutine anguemp
+subroutine rulrus(random,wgt,wco,iflag) ! in mc.f
+    real :: random
+    real :: wgt
+    real :: wco
+    integer*4 :: iflag
+end subroutine rulrus
+subroutine smpsnu(u1,u2,val,iflag,imed) ! in mc.f
+    real*8 :: u1
+    real*8 :: u2
+    real*8 :: val
+    integer*4 :: iflag
+    integer*4 :: imed
+end subroutine smpsnu
+subroutine sigmue(iflag,x,imed,sig) ! in mc.f
+    integer*4 :: iflag
+    real*8 :: x
+    integer*4 :: imed
+    real*8 :: sig
+    real*8 :: ein
+    real*8 :: u
+    real*8 :: theta
+    real*8 :: alfa
+    real*8 dimension(8) :: dis
+    real*8 :: se
+    real*8 :: se0
+    real*8 :: sm
+    real*8 :: ps
+    real*8 :: sec
+    real*8 :: se0c
+    real*8 :: smc
+    real*8 :: xkbt
+    common /datosn/ ein,u,theta,alfa,dis
+    common /datossam/ se,se0,sm,ps
+    common /datoscan/ sec,se0c,smc
+    common /temperatura/ xkbt
+end subroutine sigmue
+function efi(x) ! in mc.f
+    real :: x
+    real*8 :: efi
+end function efi
+subroutine locate(xx,n,x,j) ! in mc.f
+    real dimension(n) :: xx
+    integer*4, optional,check(shape(xx, 0) == n),depend(xx) :: n=shape(xx, 0)
+    real :: x
+    integer*4 :: j
+end subroutine locate
+subroutine sbrsigcan(e0,e,s0tot) ! in mc.f
+    real :: e0
+    real :: e
+    real :: s0tot
+    real :: ac
+    real :: kbtauc
+    real :: sigbc
+    common /datosc/ ac,kbtauc,sigbc
+end subroutine sbrsigcan
+subroutine sddscan(e0,e,zeta,tt) ! in mc.f
+    real :: e0
+    real :: e
+    real :: zeta
+    real :: tt
+    real :: ac
+    real :: kbtauc
+    real :: sigbc
+    common /datosc/ ac,kbtauc,sigbc
+end subroutine sddscan
+subroutine model(e0,ef,zzr,kbt,lindic,salida) ! in mc.f
+    real :: e0
+    real :: ef
+    real :: zzr
+    real :: kbt
+    integer*4 :: lindic
+    real :: salida
+    real :: sabs
+    real dimension(5,5) :: hw
+    real dimension(5,5) :: hsig
+    real dimension(5,5) :: ml
+    real dimension(5) :: sigb
+    real dimension(5) :: mat
+    real dimension(5) :: mmol
+    real dimension(5) :: pp100
+    integer*4 :: lelem
+    integer*4 :: lats
+    integer*4 dimension(5) :: lmod
+    real dimension(5,5) :: nwpa
+    real dimension(5,5) :: nwpc
+    real dimension(5,5) :: pe0p
+    real dimension(5,5) :: gamp
+    real dimension(5) :: kbtp
+    real dimension(5,5) :: kbtpp
+    real dimension(5) :: fprin
+    real :: e0an
+    real dimension(5,5) :: pe0
+    real dimension(5) :: nula
+    real dimension(5) :: etala
+    real dimension(5) :: rola
+    real dimension(5) :: mula
+    real dimension(5) :: taula
+    real dimension(5,5) :: pepf
+    real :: pi
+    real :: rpi
+    real :: radian
+    common /datos/ sabs,hw,hsig,ml,sigb,mat,mmol,pp100,lelem,lats,lmod
+    common /inicia/ nwpa,nwpc,pe0p,gamp,kbtp,kbtpp,fprin
+    common /de_e0/ e0an,pe0,nula,etala,rola,mula,taula,pepf
+    common /pies/ pi,rpi,radian
+end subroutine model
+subroutine sbre0(e0,kbt) ! in mc.f
+    real :: e0
+    real :: kbt
+    real :: sabs
+    real dimension(5,5) :: hw
+    real dimension(5,5) :: hsig
+    real dimension(5,5) :: ml
+    real dimension(5) :: sigb
+    real dimension(5) :: mat
+    real dimension(5) :: mmol
+    real dimension(5) :: pp100
+    integer*4 :: lelem
+    integer*4 :: lats
+    integer*4 dimension(5) :: lmod
+    real dimension(5,5) :: nwpa
+    real dimension(5,5) :: nwpc
+    real dimension(5,5) :: pe0p
+    real dimension(5,5) :: gamp
+    real dimension(5) :: kbtp
+    real dimension(5,5) :: kbtpp
+    real dimension(5) :: fprin
+    real :: e0an
+    real dimension(5,5) :: pe0
+    real dimension(5) :: nula
+    real dimension(5) :: etala
+    real dimension(5) :: rola
+    real dimension(5) :: mula
+    real dimension(5) :: taula
+    real dimension(5,5) :: pepf
+    real :: pi
+    real :: rpi
+    real :: radian
+    common /datos/ sabs,hw,hsig,ml,sigb,mat,mmol,pp100,lelem,lats,lmod
+    common /inicia/ nwpa,nwpc,pe0p,gamp,kbtp,kbtpp,fprin
+    common /de_e0/ e0an,pe0,nula,etala,rola,mula,taula,pepf
+    common /pies/ pi,rpi,radian
+end subroutine sbre0
+subroutine inicial(kbt,lprint) ! in mc.f
+    real*8 :: kbt
+    integer*4 :: lprint
+    real*8 :: sabs
+    real*8 dimension(5,5) :: hw
+    real*8 dimension(5,5) :: hsig
+    real*8 dimension(5,5) :: ml
+    real*8 dimension(5) :: sigb
+    real*8 dimension(5) :: mat
+    real*8 dimension(5) :: mmol
+    real*8 dimension(5) :: pp100
+    integer*4 :: lelem
+    integer*4 :: lats
+    integer*4 dimension(5) :: lmod
+    real*8 dimension(5,5) :: nwpa
+    real*8 dimension(5,5) :: nwpc
+    real*8 dimension(5,5) :: pe0p
+    real*8 dimension(5,5) :: gamp
+    real*8 dimension(5) :: kbtp
+    real*8 dimension(5,5) :: kbtpp
+    real*8 dimension(5) :: fprin
+    real*8 :: pi
+    real*8 :: rpi
+    real*8 :: radian
+    real*8 :: e0an
+    real*8 dimension(5,5) :: pe0
+    real*8 dimension(5) :: nula
+    real*8 dimension(5) :: etala
+    real*8 dimension(5) :: rola
+    real*8 dimension(5) :: mula
+    real*8 dimension(5) :: taula
+    real*8 dimension(5,5) :: pepf
+    common /datos/ sabs,hw,hsig,ml,sigb,mat,mmol,pp100,lelem,lats,lmod
+    common /inicia/ nwpa,nwpc,pe0p,gamp,kbtp,kbtpp,fprin
+    common /pies/ pi,rpi,radian
+    common /de_e0/ e0an,pe0,nula,etala,rola,mula,taula,pepf
+end subroutine inicial
+subroutine indat ! in mc.f
+    real :: sabs
+    real dimension(5,5) :: hw
+    real dimension(5,5) :: hsig
+    real dimension(5,5) :: ml
+    real dimension(5) :: sigb
+    real dimension(5) :: mat
+    real dimension(5) :: mmol
+    real dimension(5) :: pp100
+    integer*4 :: lelem
+    integer*4 :: lats
+    integer*4 dimension(5) :: lmod
+    real :: pi
+    real :: rpi
+    real :: radian
+    common /datos/ sabs,hw,hsig,ml,sigb,mat,mmol,pp100,lelem,lats,lmod
+    common /pies/ pi,rpi,radian
+end subroutine indat
+subroutine contrang(iflag,qemp,dq,dqnor,a0,a1,a2,val) ! in mc.f
+    real :: iflag
+    real*8 dimension(400) :: qemp
+    real*8 dimension(400) :: dq
+    real*8 :: dqnor
+    real*8 :: a0
+    real*8 :: a1
+    real*8 :: a2
+    real*8 :: val
+    real*8 :: ein
+    real*8 :: u
+    real*8 :: theta
+    real*8 :: alfa
+    real*8 dimension(8) :: dis
+    real*8 :: se
+    real*8 :: se0
+    real*8 :: sm
+    real*8 :: ps
+    real*8 :: sec
+    real*8 :: se0c
+    real*8 :: smc
+    real*8 :: psc
+    common /datosn/ ein,u,theta,alfa,dis
+    common /datossam/ se,se0,sm,ps
+    common /datoscan/ sec,se0c,smc,psc
+end subroutine contrang
+subroutine box_muller(u1,u2,x,y) ! in mc.f
+    real(kind=8) intent(in) :: u1
+    real(kind=8) intent(in) :: u2
+    real(kind=8) intent(out) :: x
+    real(kind=8) intent(out) :: y
+end subroutine box_muller
+subroutine inelastico_generalizado(er,sigma,rand1,rand2,uout) ! in mc.f
+    real(kind=8) intent(in) :: er
+    real(kind=8) intent(in) :: sigma
+    real(kind=8) intent(in) :: rand1
+    real(kind=8) intent(in) :: rand2
+    real(kind=8) intent(out) :: uout
+end subroutine inelastico_generalizado
+function dfer(y) ! in mc.f
+    double precision :: y
+    double precision :: dfer
+end function dfer
+
+! This file was auto-generated with f2py (version:1.24.4).
+! See:
+! https://web.archive.org/web/20140822061353/http://cens.ioc.ee/projects/f2py2e
