@@ -366,7 +366,7 @@ def AtomicAvg(concentration, magnitude):
 # --------1---------2---------3---------4---------5---------6---------7---------
 # --------1---------2---------3---------4---------5---------6---------7---------
 def XS_model(Eval, Eeff, composition_vec, bound_xs_vec, A_vec):
-    """
+    r"""
     Calculates the neutron total cross section in the epithermal
     limit.
 

@@ -12,6 +12,9 @@ Created on Thu Sep 28 18:00:00 2023.
 #   - dec.dec (or other shift file)
 
 import sys, os
+# Import the regrouping script from the module readD4
+from d4py.readD4 import readParam
+
 
 # /MyHome/python/modules
 # path_modules = '/nethome/dif/cuello/python/modules/'
@@ -34,8 +37,6 @@ print(60 * "-")
 print("The working directory is: {}".format(os.getcwd()))
 print(60 * "-")
 
-# Import the regrouping script from the module readD4
-from readD4 import readParam
 
 # Agregar opcion para cargar desde un archivo de parametros.
 # para correr desde la linea de comandos

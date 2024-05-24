@@ -416,7 +416,7 @@ def rebin(xdel, wlength, data, xmin, xmax, dbin):
     if wlength <= 0:
         # The binning is in angular scale
         for i in range(len(x_dat)):
-            if (np.isnan(y_dat[i]) == False) and (np.isnan(e_dat[i]) == False):
+            if (np.isnan(y_dat[i]) is False) and (np.isnan(e_dat[i]) is False):
                 # For each experimental x value, calls get_bins, which returns the bins covered by that
                 # point and the corresponding fractions
                 bins, frac = get_bins(x_dat[i], xdel, x_lim)
@@ -430,7 +430,7 @@ def rebin(xdel, wlength, data, xmin, xmax, dbin):
     else:
         # The binning is in Q-scale
         for i in range(len(x_dat)):
-            if (np.isnan(y_dat[i]) == False) and (np.isnan(e_dat[i]) == False):
+            if (np.isnan(y_dat[i]) is False) and (np.isnan(e_dat[i]) is False):
                 # ${\rm d}Q = \frac{2\pi}{\lambda} \sqrt{1-\frac{Q\lambda}{4 \pi}}
                 #  {\rm d}2\theta \frac{pi}{180}$
                 qdel = (

@@ -6,7 +6,8 @@ Created on Sat Dec 31 17:17:33 2022
 @author: cuello
 """
 
-import sys, os
+import sys
+import os
 import numpy as np  # NumPy library
 import matplotlib.pyplot as plt  # For plotting
 import lmfit as lm  # For fitting
@@ -14,6 +15,7 @@ import statistics as st
 from scipy.signal import find_peaks
 from .readD4 import getDate
 from .FittingModels import fittingRange
+
 
 def find_minimum_within_range(x, y, x_min, x_max):
     # Mask the data within the specified x range

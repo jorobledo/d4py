@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 
 from .d4nifit import find_peaks_in_range, find_minimum_within_range
 
+
 # --------1---------2---------3---------4---------5---------6---------7---------8
 def getRunningParams(parfile):
     """
@@ -365,7 +366,7 @@ def getRunningParams(parfile):
         #                       .format(inputPar[line[0]][0],inputPar[line[0]][1]))
         # --------1---------2---------3---------4---------5---------6---------7---------8
         else:
-            print("Input error in line: ", i + 1, " file: ", parafile)
+            print("Input error in line: ", i + 1, " file: ", parfile)
             sys.exit()
     return inputPar
 

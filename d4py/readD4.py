@@ -13,8 +13,10 @@ import matplotlib.colors as mcolors
 from datetime import datetime
 import calendar
 import h5py
-import sys, os
+import sys
+import os
 from .MiscelaneousCalculations import ang2q, rebin
+
 
 # --------1---------2---------3---------4---------5---------6---------7---------8
 def getDate():
@@ -332,13 +334,13 @@ def readD4numorASCII(filename):
             while parameter is None:
                 try:
                     parameter = float(
-                        (Lines[lref + ldel + i][1 + j * cdel: (j + 1) * cdel]).lstrip(
+                        (Lines[lref + ldel + i][1 + j * cdel : (j + 1) * cdel]).lstrip(
                             " "
                         )
                     )
                 except Exception:
                     parameter = float(0.0)
-            data[(Lines[lref + i][1 + j * cdel: (j + 1) * cdel]).lstrip(" ")] = (
+            data[(Lines[lref + i][1 + j * cdel : (j + 1) * cdel]).lstrip(" ")] = (
                 parameter
             )
 
@@ -356,13 +358,13 @@ def readD4numorASCII(filename):
             while parameter is None:
                 try:
                     parameter = float(
-                        (Lines[lref + ldel + i][1 + j * cdel: (j + 1) * cdel]).lstrip(
+                        (Lines[lref + ldel + i][1 + j * cdel : (j + 1) * cdel]).lstrip(
                             " "
                         )
                     )
                 except Exception:
                     parameter = float(0.0)
-            data[(Lines[lref + i][1 + j * cdel: (j + 1) * cdel]).lstrip(" ")] = (
+            data[(Lines[lref + i][1 + j * cdel : (j + 1) * cdel]).lstrip(" ")] = (
                 parameter
             )
 
@@ -380,13 +382,13 @@ def readD4numorASCII(filename):
             while parameter is None:
                 try:
                     parameter = float(
-                        (Lines[lref + ldel + i][1 + j * cdel: (j + 1) * cdel]).lstrip(
+                        (Lines[lref + ldel + i][1 + j * cdel : (j + 1) * cdel]).lstrip(
                             " "
                         )
                     )
                 except Exception:
                     parameter = float(0.0)
-            data[(Lines[lref + i][1 + j * cdel: (j + 1) * cdel]).lstrip(" ")] = (
+            data[(Lines[lref + i][1 + j * cdel : (j + 1) * cdel]).lstrip(" ")] = (
                 parameter
             )
 
@@ -1295,7 +1297,7 @@ def getNumorFiles(numorLst):
             numorFiles.append(numorLst[i])
         elif len(numorLst[i]) == 2 * lenNumor + 1:  # this corresponde to a range
             firstNum = int(numorLst[i][0:lenNumor])
-            lastNum = int(numorLst[i][lenNumor + 1: 2 * lenNumor + 1])
+            lastNum = int(numorLst[i][lenNumor + 1 : 2 * lenNumor + 1])
             if firstNum > lastNum:
                 with open("../logfiles/d4creg.log", "a") as file:
                     file.write("ERROR with the range \n", numorLst[i])
