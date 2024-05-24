@@ -1,10 +1,6 @@
 """Module for basic data treatment of disordered materials data.
 
-
-
 Module: d4treat.py
-
-
 
 This module contains functions and variables that are useful for the basic
 

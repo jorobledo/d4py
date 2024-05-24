@@ -10,12 +10,11 @@ Created on Thu Dec 23 16:10:50 2021.
 import numpy as np
 import matplotlib.pyplot as plt  # For plotting
 import matplotlib.colors as mcolors
-from d4treat import ang2q, rebin
 from datetime import datetime
 import calendar
 import h5py
 import sys, os
-
+from .MiscelaneousCalculations import ang2q, rebin
 
 # --------1---------2---------3---------4---------5---------6---------7---------8
 def getDate():

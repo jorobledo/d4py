@@ -1,27 +1,27 @@
 C   BUGS CORREGIDOS EN LA RUTINA ANGUEMP (ERROR AL CAMBIAR EL PASO DE INTEGRACION
 c   Y EN LA LLAMADA) 27/7/07
-C   Relaci�n de los espectros que se registran:
-C   ESPS(I,J,K):     Espectro acumulante saliente para la energ�a I-�sima
+C   Relaci-n de los espectros que se registran:
+C   ESPS(I,J,K):     Espectro acumulante saliente para la energ-a I--sima
 C                    el orden de scattering J-simo, y el Q K-simo. El
-C                    ESPS(I,10,K) contiene los �rdenes de scattering 10 o
+C                    ESPS(I,10,K) contiene los -rdenes de scattering 10 o
 C                    mayor, y el ESPS(I,11,K), la suma de K=2...10 (el
-C                    m�ltiple total).
+C                    m-ltiple total).
 C   EPSPS2(I,J,K):   Acumula los cuadrados del anterior.
 C   RESPS(I,J,K):    Valor medio del ESPS.
 C   REPSPS2(I,J,K):  Error de ESPS.
-C   ESP1C(I,J):      Scattering simple en el can para la energ�a I-�sima
+C   ESP1C(I,J):      Scattering simple en el can para la energ-a I--sima
 C                    y el Q K-simo.
 C   EPSP1C2(I,J,K):  Acumula los cuadrados del anterior.
 C   RESP1C(I,J):     Valor medio de ESP1C
 C   REPSP1C2(I,J,K): Error de ESP1C
-C   RESPT(I,J):      Scattering total para la energ�a I-�sima y el Q K-simo.
+C   RESPT(I,J):      Scattering total para la energ-a I--sima y el Q K-simo.
 C   REPSPT2(I,J,K):  Acumula los cuadrados del anterior.
-C   ESP1NAS(I,J):    Scattering simple sin atenuaci�n.
+C   ESP1NAS(I,J):    Scattering simple sin atenuaci-n.
 C   RESP1NAS(I,J):   Valor medio del anterior.
 
 
       PROGRAM MCD48
-      
+
       implicit none
       character*30 name
       integer ::  j, N, i
@@ -42,7 +42,7 @@ C   RESP1NAS(I,J):   Valor medio del anterior.
 
 C---------------------------------------------------------------------
       ! MODULE MC
-      
+
       ! private
       ! public :: MC2022, BOX_MULLER
 
@@ -87,7 +87,7 @@ C----- NINP es el número de puntos de Mcd8inp.dat
       COMMON /DATOSC/AC,BKTAUC,SIGBC
       COMMON /TEMPERATURA/XKBT
       DATA PI/3.1415926535897932D0/,HQS2M/2.07219093D-3/
-      
+
       RADIO(1)=R1
       RADIO(2)=R2
       RADIO(3)=0.D0
@@ -159,7 +159,7 @@ C Lectura de secciones eficaces totales de muestra y can, microscopicas
 C y macroscopicas, y probabilidades de scattering (frente a absorcion).
 C Lectura de la distribucion angular de los neutrones dispersados por el can
 
-c     Aca habria que incluir la nueva XS de muestra y can. Se podría 
+c     Aca habria que incluir la nueva XS de muestra y can. Se podría
 c     remplazar por un valor constante y ver agregarlo como parámetro.
 !       OPEN(1,FILE='Mcd8inp.dat',STATUS='OLD')
 !       READ(1,*)
@@ -182,7 +182,7 @@ C Lee parametros generales
       EIN=E0
       U=UTAB
       XKBT=0.0253D0
-      AC=50.94D0 
+      AC=50.94D0
       BKTAUC=0.0253
       SIGBC=4.99D0
 
@@ -276,65 +276,65 @@ C  Calcula la contribucion 1/S(E0) d2S/dOdE (E,E) exp[-s(E) D]
          IF (NS.GT.10) LL=10
 
 C Caso del neutron dentro de la muestra  ---------------------------+
-      IF (IMED.EQ.0) THEN                                           
+      IF (IMED.EQ.0) THEN
 C Genera distribucion ang. de scattering de la muestra para la ener.
          IF (IMOD.EQ.1) THEN
-          CALL GENDANG(U,QEMP,DQMUE,DQMA0,DQMA1,DQMA2,DANGEMP)           
+          CALL GENDANG(U,QEMP,DQMUE,DQMA0,DQMA1,DQMA2,DANGEMP)
           CALL NORMDQ(U,QEMP,DQMUE,DQMA0,DQMA1,DQMA2,DQNOR)
          END IF
-         IF (ICAN.EQ.0) THEN                                             
-           IF (NS.LE.10) NEVENT(LL,1)=NEVENT(LL,1)+1                  
-         ELSE                                                            
-           IF (NS.LE.10) NEVENT(LL,2)=NEVENT(LL,2)+1                   
-         END IF                                                          
-      DO I=1,NQ                                                     
-         ALFA=ANGDET(I)/180.D0*PI           ! Angulo aparente       
+         IF (ICAN.EQ.0) THEN
+           IF (NS.LE.10) NEVENT(LL,1)=NEVENT(LL,1)+1
+         ELSE
+           IF (NS.LE.10) NEVENT(LL,2)=NEVENT(LL,2)+1
+         END IF
+      DO I=1,NQ
+         ALFA=ANGDET(I)/180.D0*PI           ! Angulo aparente
          VDIR(2)=DSIN(ALFA)                 ! Direcciones al detector
          VDIR(3)=DCOS(ALFA)                 ! del angulo dado
          THETA=DACOS(VDIR(2)*D(2,2)+VDIR(3)*D(2,3))  !Ang. real de int.
          CALL DISTAN(1,H,DH)                   ! Distancias a recorrer
-         IF (IMOD.EQ.1) 
+         IF (IMOD.EQ.1)
      +   CALL CONTRANG(1,QEMP,DQMUE,DQNOR,DQMA0,DQMA1,DQMA2,VAL)
 
-         ESPS(I,LL)=ESPS(I,LL)+VAL*WGT                        
-         ESPS2(I,LL)=ESPS2(I,LL)+(VAL*WGT)**2.D0                
-         IF (LL.EQ.1)  THEN                                    
+         ESPS(I,LL)=ESPS(I,LL)+VAL*WGT
+         ESPS2(I,LL)=ESPS2(I,LL)+(VAL*WGT)**2.D0
+         IF (LL.EQ.1)  THEN
 
-         IF (IMOD.EQ.1) 
+         IF (IMOD.EQ.1)
      +   CALL CONTRANG(0,QEMP,DQMUE,DQNOR,DQMA0,DQMA1,DQMA2,VAL)
-         ESP1NAS(I)=ESP1NAS(I)+VAL*WGT 
-         END IF                                              
-      END DO                                                  
-      END IF                                                   
+         ESP1NAS(I)=ESP1NAS(I)+VAL*WGT
+         END IF
+      END DO
+      END IF
 C Fin del caso del neutron dentro de la muestra --------+
 C Caso del neutron en el can             ---------------+
-      IF (IMED.EQ.1) THEN                             
+      IF (IMED.EQ.1) THEN
 C Genera distribucion angular de scattering del can para la energia dada
-         CALL GENDANG(U,QEMP,DQCAN,DQCA0,DQCA1,DQCA2,DANGEMP)           
+         CALL GENDANG(U,QEMP,DQCAN,DQCA0,DQCA1,DQCA2,DANGEMP)
          CALL NORMDQ(U,QEMP,DQCAN,DQCA0,DQCA1,DQCA2,DQNOR)
-         IF (NS.LE.10) NEVENT(LL,2)=NEVENT(LL,2)+1                      
-                                                                        
-      DO I=1,NQ                                                         
-         ALFA=ANGDET(I)/180.D0*PI           ! Angulo aparente           
+         IF (NS.LE.10) NEVENT(LL,2)=NEVENT(LL,2)+1
+
+      DO I=1,NQ
+         ALFA=ANGDET(I)/180.D0*PI           ! Angulo aparente
          VDIR(2)=DSIN(ALFA)                 ! Direcciones al detector
-         VDIR(3)=DCOS(ALFA)                 ! del angulo dado           
+         VDIR(3)=DCOS(ALFA)                 ! del angulo dado
          THETA=DACOS(VDIR(2)*D(2,2)+VDIR(3)*D(2,3))  !Ang. real de int.
-         CALL DISTAN(1,H,DH)                   ! Distancias a recorrer 
-C         CALL SMPSNU(UINFC,USUPC,VAL,1,IMED)                         
+         CALL DISTAN(1,H,DH)                   ! Distancias a recorrer
+C         CALL SMPSNU(UINFC,USUPC,VAL,1,IMED)
          CALL CONTRANG(1,QEMP,DQCAN,DQNOR,DQCA0,DQCA1,DQCA2,VAL)
          IF (LL.EQ.1) THEN   !LL es indicador de multiple scattering. Si LL=1 es single scattering
-           !write(12,*) VAL, WGT  , LL                                  
-           ESP1C(I)=ESP1C(I)+VAL*WGT                            
-           ESP1C2(I)=ESP1C2(I)+(VAL*WGT)**2.D0                 
-         ELSE        ! caso multiple scattering                                                       
-           ESPS(I,LL)=ESPS(I,LL)+VAL*WGT    
-           !write(12,*) ESPS(I,LL)+VAL*WGT , LL                   
-           ESPS2(I,LL)=ESPS2(I,LL)+(VAL*WGT)**2.D0  
-c           ESP1C(I)=ESP1C(I)+VAL*WGT            ! ME INTERESA TAMBIÉN EL MULTIPLE SCATTERING CAN INCLUIDO EN SCATTERING CAN                 
-c           ESP1C2(I)=ESP1C2(I)+(VAL*WGT)**2.D0            
-         END IF                                                
-      END DO                                                 
-      END IF                                       
+           !write(12,*) VAL, WGT  , LL
+           ESP1C(I)=ESP1C(I)+VAL*WGT
+           ESP1C2(I)=ESP1C2(I)+(VAL*WGT)**2.D0
+         ELSE        ! caso multiple scattering
+           ESPS(I,LL)=ESPS(I,LL)+VAL*WGT
+           !write(12,*) ESPS(I,LL)+VAL*WGT , LL
+           ESPS2(I,LL)=ESPS2(I,LL)+(VAL*WGT)**2.D0
+c           ESP1C(I)=ESP1C(I)+VAL*WGT            ! ME INTERESA TAMBIÉN EL MULTIPLE SCATTERING CAN INCLUIDO EN SCATTERING CAN
+c           ESP1C2(I)=ESP1C2(I)+(VAL*WGT)**2.D0
+         END IF
+      END DO
+      END IF
 C Fin del caso del neutron en el can     ----------+
 C Comienza a analizar un nuevo scattering
       NS=NS+1
@@ -365,7 +365,7 @@ c            CALL ENERGIA(U,IFLAG,IMED,UC,US,UI,RANDOM(IRAND))
       CALL ANGUEMP(A,POS,D,DANGEMP,RANDOM(IRAND1),RANDOM(IRAND))
       X=UTAB
       end if
-      if (IMOD.EQ.2) then 
+      if (IMOD.EQ.2) then
       call ANGULOS(A,POS,D,U1,U,IMED,RANDOM(IRAND1),RANDOM(IRAND))
       X=U
       end if
@@ -374,7 +374,7 @@ c            CALL ENERGIA(U,IFLAG,IMED,UC,US,UI,RANDOM(IRAND))
       call RANDOM_NUMBER(RAND2)
       call INELASTICO_GENERALIZADO(HQS2M,XKBT, RAND1, RAND2, U) ! updates energy to inelastic energy.
       X=U
-      end if 
+      end if
 c      CALL VALINTERP(U)
       SE=SETOT
       SM=SEM
@@ -426,7 +426,7 @@ C Suma el scattering total y su error
 
 
 C Escribe salidas
-      
+
       OPEN (1,FILE = trim(OUTPUT) // ".log")
       WRITE (1,*)'NEUTRONES TOTALES=        ',NTOT
       WRITE (1,*)'NEUTRONES FUERA DE RANGO= ',NOUT
@@ -436,7 +436,7 @@ C Escribe salidas
       OPEN (1,FILE = trim(OUTPUT) // ".out")
 
       WRITE(1,998)
-998   FORMAT('#    ANGULO     SINGLE       S/ATEN         
+998   FORMAT('#    ANGULO     SINGLE       S/ATEN
      #CAN        MULT     IPLE     TOTAL')
       DO 31 K=1,NQ
       FMUL=0.D0
@@ -465,27 +465,27 @@ C---------------------------------------------------------------------
 C---------------------------------------------------------------------
 
 C--------------------------------------------------------------------
-C     Calcula la posici�n sobre la cara anterior de la muestra, por
-C     donde ingresa el neutr�n, y el �ngulo de entrada del mismo.
+C     Calcula la posici-n sobre la cara anterior de la muestra, por
+C     donde ingresa el neutr-n, y el -ngulo de entrada del mismo.
 C--------------------------------------------------------------------
       SUBROUTINE RCERO(RADIO,EH,R,A,RAND1,RAND2)
       IMPLICIT REAL*8 (A-H,O-Z)
       DIMENSION R(2,3),A(2,2)
       A(1,1)=0.D0
       A(1,2)=0.D0
-C---- Aqu� se calcula la posici�n de entrada
+C---- Aqu- se calcula la posici-n de entrada
       R(1,1)=EH*(RAND2-.5D0)
       R(1,2)=RADIO*(2.D0*RAND1-1.D0)
       R(1,3)=-DSQRT(RADIO**2.D0-R(1,2)**2.D0)
-C---- Aqu� se calcula el �ngulo de entrada
+C---- Aqu- se calcula el -ngulo de entrada
       A(2,1)=0.D0
       A(2,2)=0.D0
       RETURN
       END
 
 C--------------------------------------------------------------------
-C     Calcula la distancia que debe volar el neutr�n desde la posici�n
-C  POS, en la direcci�n definida por el versor D(I)
+C     Calcula la distancia que debe volar el neutr-n desde la posici-n
+C  POS, en la direcci-n definida por el versor D(I)
 C
 C  Caso IEJE=1 (eje del cilindro = x)
 C                                  x
@@ -677,7 +677,7 @@ C Agrega las distancias recorridas en las tapas de los cilindros
 
 C--------------------------------------------------------------------
 C     Calcula el camino libre medio del neutron y la distancia a la
-C     siguiente interaccion. Modifica el peso del neutr�n.
+C     siguiente interaccion. Modifica el peso del neutr-n.
 C--------------------------------------------------------------------
       SUBROUTINE LAMBDA(XL,RANDOM,WGT,ICAN,IMED,TRANS)
       IMPLICIT REAL*8 (A-H,O-Z)
@@ -755,13 +755,13 @@ C      SCATT. EN CAN
       ELSE
         WGT=WGT*PSC
       END IF
-      
+
       RETURN
       END SUBROUTINE LAMBDA
 
 C--------------------------------------------------------------------
-C     Calcula la nueva ubicaci�n de neutr�n a partir de la anterior y
-C     de los �ngulos correspondientes.
+C     Calcula la nueva ubicaci-n de neutr-n a partir de la anterior y
+C     de los -ngulos correspondientes.
 C--------------------------------------------------------------------
       SUBROUTINE POSNUE(R,XL,D)
       IMPLICIT REAL*8 (A-H,O-Z)
@@ -789,10 +789,10 @@ C--------------------------------------------------------------------
       END SUBROUTINE GGUBFS
 
 C--------------------------------------------------------------------
-C     Calcula los �ngulos de dispersi�n cuando ocurre una interacci�n.
-C     Cambia los valores de posici�n y �ngulo, conservando los que
-C     surgen de la �ltima iteraci�n.
-C     Calcula el nuevo versor direcci�n.
+C     Calcula los -ngulos de dispersi-n cuando ocurre una interacci-n.
+C     Cambia los valores de posici-n y -ngulo, conservando los que
+C     surgen de la -ltima iteraci-n.
+C     Calcula el nuevo versor direcci-n.
 C--------------------------------------------------------------------
       SUBROUTINE ANGULOS(A,R,D,U0,U,IMED,RAND1,RAND2)
       IMPLICIT REAL*8 (A-H,O-Z)
@@ -870,7 +870,7 @@ C--------------------------------------------------------------------
       RETURN
       END SUBROUTINE ANGULOS
 C--------------------------------------------------------------------
-C     Genera la distribuci�n angular para scattering en el can y la
+C     Genera la distribuci-n angular para scattering en el can y la
 C     normaliza.
 C--------------------------------------------------------------------
       SUBROUTINE GENDANG(U,QEMP,DQ,A0,A1,A2,DANG)
@@ -879,7 +879,7 @@ C--------------------------------------------------------------------
       PARAMETER(NDQE=400)
       DIMENSION QEMP(NDQE),DQ(NDQE),DANG(181)
       DATA PI/3.1415926535897932D0/
-C Genera distribuci�n angular
+C Genera distribuci-n angular
       I=0
       DO 3 II=0,180,1
        T = float(II)
@@ -923,14 +923,14 @@ c      open(7,file='x')
 c      do i=1,181
 c      write(7,*)i-1,2*pi*dsin((i-1.d0)*pi/180.d0)*dang(i)*pi/180
 c      end do
-c      write(6,*)'escribi� dang para u=',u
+c      write(6,*)'escribi- dang para u=',u
 c      close(7)
 c      read(5,*)
       RETURN
       END SUBROUTINE GENDANG
 C--------------------------------------------------------------------
-C     Integra la distribuci�n en Q.
-C     Da la constante de normalizaci�n.
+C     Integra la distribuci-n en Q.
+C     Da la constante de normalizaci-n.
 C--------------------------------------------------------------------
       SUBROUTINE NORMDQ(U,QEMP,DQ,A0,A1,A2,DQNOR)
       IMPLICIT REAL*8 (A-H,O-Z)
@@ -971,10 +971,10 @@ C INTEGRA
       RETURN
       END SUBROUTINE NORMDQ
 C--------------------------------------------------------------------
-C     Calcula los �ngulos de dispersi�n cuando ocurre una interacci�n.
-C     Cambia los valores de posicion y �angulo, conservando los que
+C     Calcula los -ngulos de dispersi-n cuando ocurre una interacci-n.
+C     Cambia los valores de posicion y -angulo, conservando los que
 C     surgen de la ultima iteracion.
-C     Calcula el nuevo versor direcci�n.
+C     Calcula el nuevo versor direcci-n.
 C     Caso de distribucion angular empirica.
 C--------------------------------------------------------------------
       SUBROUTINE ANGUEMP(A,R,D,DANG,RAND1,RAND2)
@@ -1088,7 +1088,7 @@ C-----------------------------------------------------------------------
 
 C-----------------------------------------------------------------------
 C
-C  Calcula el valor de la funci�n
+C  Calcula el valor de la funci-n
 C                  2
 C            1    d s
 C           ---  ---- (E,E') * exp( -s (E')*D ) Ef(E')
@@ -1097,7 +1097,7 @@ C             T
 C
 C  donde E' es la energia de salida.
 C
-C  IFLAG=0 : Calcula sin atenuaci�n ni correcci�n por eficiencia del
+C  IFLAG=0 : Calcula sin atenuaci-n ni correcci-n por eficiencia del
 C            detector
 C  IFLAG distinto de 0: Calculo completo.
 C-----------------------------------------------------------------------
@@ -1186,9 +1186,9 @@ C----------------------------------------------------------------------------
       COMMON /DATOSC/AC,KBTAUC,SIGBC
       S0TOT=0.D0
       X=DSQRT(E/KBTAUC)
-      X0=DSQRT(E0/KBTAUC)      
+      X0=DSQRT(E0/KBTAUC)
       ETA=(AC+1.D0)/2.D0/DSQRT(AC)
-      RHO=(AC-1.D0)/2.D0/DSQRT(AC) 
+      RHO=(AC-1.D0)/2.D0/DSQRT(AC)
       Z=X**2.D0-X0**2.D0
       IF (E.GE.E0) THEN
         S0TOT=0.D0
@@ -1231,7 +1231,7 @@ C--------------------------------------------------------------------
 
       RETURN
       END SUBROUTINE SDDSCAN
-      
+
 C----------------------------------------------------------------------------
       SUBROUTINE MODEL(E0,EF,ZZR,KBT,LINDIC,SALIDA)
 C============================================================================
@@ -1257,7 +1257,7 @@ C..................................................................
      1         SIGB(LAZ),MAT(LAZ),MMOL(LAZ),PP100(LAZ),
      1         LELEM,LATS,LMOD(LAZ)
 
-     
+
       COMMON /INICIA/NWPA(LAZ,LMZ),NWPC(LAZ,LMZ),PE0P(LAZ,LMZ),
      1         GAMP(LAZ,LMZ),KBTP(LAZ),KBTPP(LAZ,LMZ),FPRIN(LAZ)
 
@@ -1325,7 +1325,7 @@ C   NUCLEO DE TRANSFERENCIA DE ENERGIA DE ORDEN CERO DE E0 A EF:
      +       (DFER(RO*XF-ETA*X0)+LUPDO*DFER(RO*XF+ETA*X0)))
 C -------------------------------------------------------
         CASE(3)
-C   SECCION EFICAZ DOBLE DIFERENCIAL:  
+C   SECCION EFICAZ DOBLE DIFERENCIAL:
           W=E0-EF
           Q=E0+EF-2.D0*DSQRT(E0*EF)*DCOS(ZZ*RADIAN)
           RES=DSQRT(EF/E0)*DEXP(-(1.D0-NU)/2.D0*W/TAU)*
@@ -1384,16 +1384,16 @@ C   NUCLEO DE TRANSFERENCIA DE ENERGIA DE ORDEN CERO DE E0 A EF:
             KERA=KERA*NWPA(LA,L)*P0*DSQRT(E0A/E0)
 C -------------------------------------------------------
           CASE(3)
-C   SECCION EFICAZ DOBLE DIFERENCIAL:  
+C   SECCION EFICAZ DOBLE DIFERENCIAL:
           W=E0A-EF
           Q=E0A+EF-2.D0*DSQRT(E0A*EF)*DCOS(ZZ*RADIAN)
           KERA=DSQRT(EF/E0A)*Q*DEXP(-(1.D0-NU)/2.D0*W/TAU)*
      +      DSQRT(MU/4.D0/PI/Q/TAU)*
      +      DEXP(-(W-Q/MU)*(W-Q/MU)*MU/4.D0/Q/TAU)
-          KERA=KERA*NWPA(LA,L)*P0*DSQRT(E0A/E0)  
+          KERA=KERA*NWPA(LA,L)*P0*DSQRT(E0A/E0)
 C -------------------------------------------------------
           END SELECT
-C 
+C
 C @@@@@@@@@@@@@
 C CREACION:
           IF(HSIG(LA,L).GT.0)THEN
@@ -1430,13 +1430,13 @@ C   NUCLEO DE TRANSFERENCIA DE ENERGIA DE ORDEN CERO DE E0 A EF:
                 KERC=KERC*NWPC(LA,L)*P0*DSQRT(E0C/E0)
 C -------------------------------------------------------
               CASE(3)
-C   SECCION EFICAZ DOBLE DIFERENCIAL:  
+C   SECCION EFICAZ DOBLE DIFERENCIAL:
                 W=E0C-EF
                 Q=E0C+EF-2.D0*DSQRT(E0C*EF)*DCOS(ZZ*RADIAN)
                 KERC=DSQRT(EF/E0C)*Q*DEXP(-(1.D0-NU)/2.D0*W/TAU)*
      +            DSQRT(MU/4.D0/PI/Q/TAU)*
      +            DEXP(-(W-Q/MU)*(W-Q/MU)*MU/4.D0/Q/TAU)
-                KERC=KERC*NWPC(LA,L)*P0*DSQRT(E0C/E0)  
+                KERC=KERC*NWPC(LA,L)*P0*DSQRT(E0C/E0)
 C -------------------------------------------------------
               END SELECT
             ELSE
@@ -1460,10 +1460,10 @@ C   NUCLEO DE TRANSFERENCIA DE ENERGIA DE ORDEN CERO DE E0 A EF:
               KERC=KERC*NWPC(LA,L)*PF*DSQRT(1.D0/E0)
 C -------------------------------------------------------
             CASE(3)
-C   SECCION EFICAZ DOBLE DIFERENCIAL:  
+C   SECCION EFICAZ DOBLE DIFERENCIAL:
               KERC=DEXP(-EF/4.D0/MU/TAU*(1.D0+2.D0*MU*NU+MU*MU))*
      +          DSQRT(MU/4.D0/PI/TAU)*EF
-              KERC=KERC*NWPC(LA,L)*PF*DSQRT(1.D0/E0)  
+              KERC=KERC*NWPC(LA,L)*PF*DSQRT(1.D0/E0)
 C -------------------------------------------------------
             END SELECT
           ENDIF
@@ -1731,11 +1731,11 @@ C--------------------------------------------------------------------
 C  Contribucion angular. Calcula la contibucion de la historia actual
 C  a un bin angular dado. Para ello interpola en la distribucion en escala
 C  Q que viene como input (DQMUE y DQCAN en el programa ppal.), le aplica
-c  la constante de normalizaci�n correspondiente a esa energ�a, y le
+c  la constante de normalizaci-n correspondiente a esa energ-a, y le
 C  aplica atenuacion y eficiencia de los detectores.
 c  Modificada el 2/7/07
 C--------------------------------------------------------------------
- 
+
       SUBROUTINE CONTRANG(IFLAG,QEMP,DQ,DQNOR,A0,A1,A2,VAL)
       IMPLICIT REAL*8 (A-H,O-Z)
       PARAMETER(NDQE=400)
@@ -1802,150 +1802,150 @@ C     P(w) = 1/(sqrt(2*pi*sigma**2)) * exp(-(w - wr)**2/(2*simga**2))
       END SUBROUTINE INELASTICO_GENERALIZADO
 
 C++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-C   IMSL ROUTINE NAME   - MERFD  =DFER                                  
-C                                                                       
+C   IMSL ROUTINE NAME   - MERFD  =DFER
+C
 C----------------------------------------------------------------------
-C                                                                       
-C   COMPUTER            - VAX/DOUBLE                                   
-C                                                                      
-C   LATEST REVISION     - JUNE 1, 1981                                 
-C                                                                      
-C   PURPOSE             - EVALUATE THE ERROR FUNCTION OF A DOUBLE      
-C                           PRECISION ARGUMENT                         
-C                                                                      
-C   USAGE               - RESULT = DFER(Y)                             
-C                                                                      
-C   ARGUMENTS    Y      - INPUT DOUBLE PRECISION ARGUMENT OF THE ERROR 
-C                           FUNCTION.                                  
-C                DFER   - OUTPUT DOUBLE PRECISION VALUE OF THE ERROR   
-C                           FUNCTION. DFER MUST BE TYPED DOUBLE        
-C                           PRECISON IN THE CALLING PROGRAM.           
-C                                                                      
-C   PRECISION/HARDWARE  - DOUBLE/H32                                   
-C                       - NOT AVAILABLE/H36,H48,H60                    
-C                         NOTE - DFER MAY NOT BE SUPPLIED BY IMSL IF   
-C                           IT RESIDES IN THE MATHEMATICAL SUBPROGRAM  
-C                           LIBRARY SUPPLIED BY THE MANUFACTURER.      
-C                                                                      
-C   REQD. IMSL ROUTINES - NONE REQUIRED                                
-C                                                                      
-C   NOTATION            - INFORMATION ON SPECIAL NOTATION AND          
-C                           CONVENTIONS IS AVAILABLE IN THE MANUAL     
-C                           INTRODUCTION OR THROUGH IMSL ROUTINE UHELP 
-C                                                                      
-C   COPYRIGHT           - 1978 BY IMSL, INC. ALL RIGHTS RESERVED.      
-C                                                                      
+C
+C   COMPUTER            - VAX/DOUBLE
+C
+C   LATEST REVISION     - JUNE 1, 1981
+C
+C   PURPOSE             - EVALUATE THE ERROR FUNCTION OF A DOUBLE
+C                           PRECISION ARGUMENT
+C
+C   USAGE               - RESULT = DFER(Y)
+C
+C   ARGUMENTS    Y      - INPUT DOUBLE PRECISION ARGUMENT OF THE ERROR
+C                           FUNCTION.
+C                DFER   - OUTPUT DOUBLE PRECISION VALUE OF THE ERROR
+C                           FUNCTION. DFER MUST BE TYPED DOUBLE
+C                           PRECISON IN THE CALLING PROGRAM.
+C
+C   PRECISION/HARDWARE  - DOUBLE/H32
+C                       - NOT AVAILABLE/H36,H48,H60
+C                         NOTE - DFER MAY NOT BE SUPPLIED BY IMSL IF
+C                           IT RESIDES IN THE MATHEMATICAL SUBPROGRAM
+C                           LIBRARY SUPPLIED BY THE MANUFACTURER.
+C
+C   REQD. IMSL ROUTINES - NONE REQUIRED
+C
+C   NOTATION            - INFORMATION ON SPECIAL NOTATION AND
+C                           CONVENTIONS IS AVAILABLE IN THE MANUAL
+C                           INTRODUCTION OR THROUGH IMSL ROUTINE UHELP
+C
+C   COPYRIGHT           - 1978 BY IMSL, INC. ALL RIGHTS RESERVED.
+C
 C   WARRANTY            - IMSL WARRANTS ONLY THAT IMSL TESTING HAS BEEN
-C                           APPLIED TO THIS CODE. NO OTHER WARRANTY,   
-C                           EXPRESSED OR IMPLIED, IS APPLICABLE.       
-C                                                                      
+C                           APPLIED TO THIS CODE. NO OTHER WARRANTY,
+C                           EXPRESSED OR IMPLIED, IS APPLICABLE.
+C
 C----------------------------------------------------------------------
-C                                                                      
-      FUNCTION DFER(Y)                                                 
-C                                  SPECIFICATIONS FOR ARGUMENTS        
-      DOUBLE PRECISION   DFER,Y                                        
-C                                  SPECIFICATIONS FOR LOCAL VARIABLES  
-      DIMENSION          P(5),Q(4),P1(9),Q1(8),P2(6),Q2(5)             
-      DOUBLE PRECISION   P,Q,P1,Q1,P2,Q2,XMIN,XLARGE,SQRPI,X,          
-     *                   RES,XSQ,XNUM,XDEN,XI                          
-      INTEGER            ISW,I                                         
-C                                  COEFFICIENTS FOR 0.0 .LE. Y .LT.    
-C                                  .477                                
-      DATA               P(1)/113.8641541510502D0/,                    
-     *                   P(2)/377.4852376853020D0/,                    
-     *                   P(3)/3209.377589138469D0/,                    
-     *                   P(4)/.1857777061846032D0/,                    
-     *                   P(5)/3.161123743870566D0/                     
-      DATA               Q(1)/244.0246379344442D0/,                    
-     *                   Q(2)/1282.616526077372D0/,                    
-     *                   Q(3)/2844.236833439171D0/,                    
-     *                   Q(4)/23.60129095234412D0/                     
-C                                  COEFFICIENTS FOR .477 .LE. Y        
-C                                  .LE. 4.0                            
-      DATA               P1(1)/8.883149794388376D0/,                   
-     *                   P1(2)/66.11919063714163D0/,                   
-     *                   P1(3)/298.6351381974001D0/,                   
-     *                   P1(4)/881.9522212417691D0/,                   
-     *                   P1(5)/1712.047612634071D0/,                   
-     *                   P1(6)/2051.078377826071D0/,                   
-     *                   P1(7)/1230.339354797997D0/,                   
-     *                   P1(8)/2.153115354744038D-8/,                  
-     *                   P1(9)/.5641884969886701D0/                    
-      DATA               Q1(1)/117.6939508913125D0/,                   
-     *                   Q1(2)/537.1811018620099D0/,                   
-     *                   Q1(3)/1621.389574566690D0/,                   
-     *                   Q1(4)/3290.799235733460D0/,                   
-     *                   Q1(5)/4362.619090143247D0/,                   
-     *                   Q1(6)/3439.367674143722D0/,                   
-     *                   Q1(7)/1230.339354803749D0/,                   
-     *                   Q1(8)/15.74492611070983D0/                    
-C                                  COEFFICIENTS FOR 4.0 .LT. Y         
-      DATA               P2(1)/-3.603448999498044D-01/,                
-     *                   P2(2)/-1.257817261112292D-01/,                
-     *                   P2(3)/-1.608378514874228D-02/,                
-     *                   P2(4)/-6.587491615298378D-04/,                
-     *                   P2(5)/-1.631538713730210D-02/,                
-     *                   P2(6)/-3.053266349612323D-01/                 
-      DATA               Q2(1)/1.872952849923460D0/,                   
-     *                   Q2(2)/5.279051029514284D-01/,                 
-     *                   Q2(3)/6.051834131244132D-02/,                 
-     *                   Q2(4)/2.335204976268692D-03/,                 
-     *                   Q2(5)/2.568520192289822D0/                    
-C                                  CONSTANTS                           
-      DATA               XMIN/1.0D-10/,XLARGE/6.375D0/                 
-      DATA               SQRPI/.5641895835477563D0/                    
-C                                  FIRST EXECUTABLE STATEMENT          
-      X = Y                                                            
-      ISW = 1                                                          
-      IF (X.GE.0.0D0) GO TO 5                                          
-      ISW = -1                                                         
-      X = -X                                                           
-    5 IF (X.LT..477D0) GO TO 10                                        
-      IF (X.LE.4.0D0) GO TO 25                                         
-      IF (X.LT.XLARGE) GO TO 35                                        
-      RES = 1.0D0                                                      
-      GO TO 50                                                         
-C                                  ABS(Y) .LT. .477, EVALUATE          
-C                                  APPROXIMATION FOR DFER              
-   10 IF (X.LT.XMIN) GO TO 20                                          
-      XSQ = X*X                                                        
-      XNUM = P(4)*XSQ+P(5)                                             
-      XDEN = XSQ+Q(4)                                                  
-      DO 15 I=1,3                                                      
-         XNUM = XNUM*XSQ+P(I)                                          
-         XDEN = XDEN*XSQ+Q(I)                                          
-   15 CONTINUE                                                         
-      RES = X*XNUM/XDEN                                                
-      GO TO 50                                                         
-   20 RES = X*P(3)/Q(3)                                                
-      GO TO 50                                                         
-C                                  .477 .LE. ABS(Y) .LE. 4.0           
-C                                  EVALUATE APPROXIMATION FOR DFER     
-   25 XSQ = X*X                                                        
-      XNUM = P1(8)*X+P1(9)                                             
-      XDEN = X+Q1(8)                                                   
-      DO 30 I=1,7                                                      
-         XNUM = XNUM*X+P1(I)                                           
-         XDEN = XDEN*X+Q1(I)                                           
-   30 CONTINUE                                                         
-      RES = XNUM/XDEN                                                  
-      GO TO 45                                                         
-C                                  4.0 .LT. ABS(Y), EVALUATE           
-C                                  MINIMAX APPROXIMATION FOR DFER      
-   35 XSQ = X*X                                                        
-      XI = 1.0D0/XSQ                                                   
-      XNUM = P2(5)*XI+P2(6)                                            
-      XDEN = XI+Q2(5)                                                  
-      DO 40 I=1,4                                                      
-         XNUM = XNUM*XI+P2(I)                                          
-         XDEN = XDEN*XI+Q2(I)                                          
-   40 CONTINUE                                                         
-      RES = (SQRPI+XI*XNUM/XDEN)/X                                     
-   45 RES = RES*DEXP(-XSQ)                                             
-      RES = 1.0D0-RES                                                  
-   50 IF (ISW.EQ.-1) RES = -RES                                        
-      DFER = RES                                                       
-      RETURN                                                           
-      END FUNCTION DFER     
-      
+C
+      FUNCTION DFER(Y)
+C                                  SPECIFICATIONS FOR ARGUMENTS
+      DOUBLE PRECISION   DFER,Y
+C                                  SPECIFICATIONS FOR LOCAL VARIABLES
+      DIMENSION          P(5),Q(4),P1(9),Q1(8),P2(6),Q2(5)
+      DOUBLE PRECISION   P,Q,P1,Q1,P2,Q2,XMIN,XLARGE,SQRPI,X,
+     *                   RES,XSQ,XNUM,XDEN,XI
+      INTEGER            ISW,I
+C                                  COEFFICIENTS FOR 0.0 .LE. Y .LT.
+C                                  .477
+      DATA               P(1)/113.8641541510502D0/,
+     *                   P(2)/377.4852376853020D0/,
+     *                   P(3)/3209.377589138469D0/,
+     *                   P(4)/.1857777061846032D0/,
+     *                   P(5)/3.161123743870566D0/
+      DATA               Q(1)/244.0246379344442D0/,
+     *                   Q(2)/1282.616526077372D0/,
+     *                   Q(3)/2844.236833439171D0/,
+     *                   Q(4)/23.60129095234412D0/
+C                                  COEFFICIENTS FOR .477 .LE. Y
+C                                  .LE. 4.0
+      DATA               P1(1)/8.883149794388376D0/,
+     *                   P1(2)/66.11919063714163D0/,
+     *                   P1(3)/298.6351381974001D0/,
+     *                   P1(4)/881.9522212417691D0/,
+     *                   P1(5)/1712.047612634071D0/,
+     *                   P1(6)/2051.078377826071D0/,
+     *                   P1(7)/1230.339354797997D0/,
+     *                   P1(8)/2.153115354744038D-8/,
+     *                   P1(9)/.5641884969886701D0/
+      DATA               Q1(1)/117.6939508913125D0/,
+     *                   Q1(2)/537.1811018620099D0/,
+     *                   Q1(3)/1621.389574566690D0/,
+     *                   Q1(4)/3290.799235733460D0/,
+     *                   Q1(5)/4362.619090143247D0/,
+     *                   Q1(6)/3439.367674143722D0/,
+     *                   Q1(7)/1230.339354803749D0/,
+     *                   Q1(8)/15.74492611070983D0/
+C                                  COEFFICIENTS FOR 4.0 .LT. Y
+      DATA               P2(1)/-3.603448999498044D-01/,
+     *                   P2(2)/-1.257817261112292D-01/,
+     *                   P2(3)/-1.608378514874228D-02/,
+     *                   P2(4)/-6.587491615298378D-04/,
+     *                   P2(5)/-1.631538713730210D-02/,
+     *                   P2(6)/-3.053266349612323D-01/
+      DATA               Q2(1)/1.872952849923460D0/,
+     *                   Q2(2)/5.279051029514284D-01/,
+     *                   Q2(3)/6.051834131244132D-02/,
+     *                   Q2(4)/2.335204976268692D-03/,
+     *                   Q2(5)/2.568520192289822D0/
+C                                  CONSTANTS
+      DATA               XMIN/1.0D-10/,XLARGE/6.375D0/
+      DATA               SQRPI/.5641895835477563D0/
+C                                  FIRST EXECUTABLE STATEMENT
+      X = Y
+      ISW = 1
+      IF (X.GE.0.0D0) GO TO 5
+      ISW = -1
+      X = -X
+    5 IF (X.LT..477D0) GO TO 10
+      IF (X.LE.4.0D0) GO TO 25
+      IF (X.LT.XLARGE) GO TO 35
+      RES = 1.0D0
+      GO TO 50
+C                                  ABS(Y) .LT. .477, EVALUATE
+C                                  APPROXIMATION FOR DFER
+   10 IF (X.LT.XMIN) GO TO 20
+      XSQ = X*X
+      XNUM = P(4)*XSQ+P(5)
+      XDEN = XSQ+Q(4)
+      DO 15 I=1,3
+         XNUM = XNUM*XSQ+P(I)
+         XDEN = XDEN*XSQ+Q(I)
+   15 CONTINUE
+      RES = X*XNUM/XDEN
+      GO TO 50
+   20 RES = X*P(3)/Q(3)
+      GO TO 50
+C                                  .477 .LE. ABS(Y) .LE. 4.0
+C                                  EVALUATE APPROXIMATION FOR DFER
+   25 XSQ = X*X
+      XNUM = P1(8)*X+P1(9)
+      XDEN = X+Q1(8)
+      DO 30 I=1,7
+         XNUM = XNUM*X+P1(I)
+         XDEN = XDEN*X+Q1(I)
+   30 CONTINUE
+      RES = XNUM/XDEN
+      GO TO 45
+C                                  4.0 .LT. ABS(Y), EVALUATE
+C                                  MINIMAX APPROXIMATION FOR DFER
+   35 XSQ = X*X
+      XI = 1.0D0/XSQ
+      XNUM = P2(5)*XI+P2(6)
+      XDEN = XI+Q2(5)
+      DO 40 I=1,4
+         XNUM = XNUM*XI+P2(I)
+         XDEN = XDEN*XI+Q2(I)
+   40 CONTINUE
+      RES = (SQRPI+XI*XNUM/XDEN)/X
+   45 RES = RES*DEXP(-XSQ)
+      RES = 1.0D0-RES
+   50 IF (ISW.EQ.-1) RES = -RES
+      DFER = RES
+      RETURN
+      END FUNCTION DFER
+
 

@@ -6,7 +6,7 @@ Module for basic data treatment of disordered materials data.
 
 Module: PhysicalMagnitudes.py
 
-This module contains functions and variables that are useful for the basic 
+This module contains functions and variables that are useful for the basic
 data treatment of disordered material diffractograms at D4.
 
 The functions are thougth to use D4 data, but in fact they could be used for
@@ -27,9 +27,7 @@ Modified: Feb 7, 2023
 # functions by topics.
 
 # --------1---------2---------3---------4---------5---------6---------7---------
-import sys
 import numpy as np  # NumPy library
-from scipy import integrate  # For integration
 
 # --------1---------2---------3---------4---------5---------6---------7---------
 
