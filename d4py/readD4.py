@@ -1531,7 +1531,7 @@ def getDiffA(numor, head, runInfo):
             frac2 = ang1 - int(ang1)
             # Checks if counts and errors are numbers
             # If NaN, it is not added to the histogram
-            if (np.isnan(count[ang]) is False) and (np.isnan(error[ang]) is False):
+            if (np.isnan(count[ang]) == False) and (np.isnan(error[ang]) == False):
                 # The index 0 is used for the total diffractogram
                 diff[0, 1, a1] += frac1 * count[ang] * mon
                 diff[0, 1, a2] += frac2 * count[ang] * mon
@@ -1552,7 +1552,7 @@ def getDiffA(numor, head, runInfo):
     # Normalisation by the weighting factor of each bin
     for det in range(10):
         for i in range(len(diff[0, 1, :])):
-            if (np.isnan(diff[0, 1, i]) is False) and (diff[det, 3, i] > 0):
+            if (np.isnan(diff[0, 1, i]) == False) and (diff[det, 3, i] > 0):
                 diff[det, 1, i] = diff[det, 1, i] / diff[det, 3, i]
                 diff[det, 2, i] = diff[det, 2, i] / diff[det, 3, i]
             else:
@@ -1577,7 +1577,7 @@ def saveDiffAngle(diffA, head, runInfo):
         angle = diffA[0, 0, i]
         count = diffA[0, 1, i]
         error = diffA[0, 2, i]
-        if (np.isnan(count * error) is False) and (count > 0):
+        if (np.isnan(count * error) == False) and (count > 0):
             ndata += 1
 
     # Writing a file with CORRECT format
@@ -1620,7 +1620,7 @@ def saveDiffAngle(diffA, head, runInfo):
             angle = diffA[0, 0, i]
             count = diffA[0, 1, i]
             error = diffA[0, 2, i]
-            if (np.isnan(count * error) is False) and (count > 0):
+            if (np.isnan(count * error) == False) and (count > 0):
                 adatfile.write(
                     "{:8.4f}     {:12.8f}     {:12.8f} \n".format(angle, count, error)
                 )
@@ -1679,7 +1679,7 @@ def saveDiffAngle(diffA, head, runInfo):
                 count = diffA[det, 1, i]
                 error = diffA[det, 2, i]
                 qval = diffA[det, 4, i]
-                if (np.isnan(count * error) is False) and (count > 0):
+                if (np.isnan(count * error) == False) and (count > 0):
                     regfile.write(
                         "{:8.4f}     {:12.8f}     {:12.8f}     {:8.4f} \n".format(
                             angle, count, error, qval
@@ -1710,7 +1710,7 @@ def saveDiffQ(diffQ, head, runInfo):
         #        q = diffQ[i,0]
         count = diffQ[i, 1]
         error = diffQ[i, 2]
-        if (np.isnan(count * error) is False) and (count > 0):
+        if (np.isnan(count * error) == False) and (count > 0):
             ndata += 1
 
     # Writing a file with CORRECT format
@@ -1751,7 +1751,7 @@ def saveDiffQ(diffQ, head, runInfo):
             q = diffQ[i, 0]
             count = diffQ[i, 1]
             error = diffQ[i, 2]
-            if (np.isnan(count * error) is False) and (count > 0):
+            if (np.isnan(count * error) == False) and (count > 0):
                 qdatfile.write(
                     "{:8.4f}     {:12.8f}     {:12.8f} \n".format(q, count, error)
                 )
