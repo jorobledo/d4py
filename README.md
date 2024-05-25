@@ -7,5 +7,3 @@ This package contains functions and variables that are useful for the basic data
 
 
 The functions are thougth to use D4 data, but in fact they could be used for a more general case.
-
->>>>>>> develop
